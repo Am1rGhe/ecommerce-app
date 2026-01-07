@@ -3,5 +3,118 @@
     justify-content: space-between;
     width: 100%;
     height: 100px;
+    align-items: center;
+    margin: 0;
+    padding: 0 10px;
+}
+.brand{
+}
+
+.navLinks{
+ display: flex;
+ gap: 20px;
+ 
+}
+.navLink{
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+}
+.navLink:hover{
+    border-bottom: 1px solid black;
+}
+
+
+
+
+.rightSection{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Login Section */
+.login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.welcomeText {
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+}
+
+.loginBtn {
+    background: none;
+    border: 1px solid #333;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.loginBtn:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* User Info (when logged in) */
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.userName {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Icons Container */
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.iconBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.iconBtn:hover {
+    color: #666;
+}
+
+.headerSvg{
+    width: 20px;
+    height: 20px;
 }
 
