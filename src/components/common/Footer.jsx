@@ -139,7 +139,7 @@ function Footer() {
       {/* Bottom Bar */}
       <div className={styles.bottomBar}>
         <p className={styles.copyright}>
-          © {currentYear} TRISTAN. All rights reserved.
+          © {currentYear} AMIR. All rights reserved.
         </p>
         <div className={styles.paymentMethods}>
           <span className={styles.paymentText}>We Accept:</span>
