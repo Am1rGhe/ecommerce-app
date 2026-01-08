@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
 function Header() {
@@ -34,20 +35,22 @@ function Header() {
       <nav className={styles.navbar}>
         {/* logo*/}
         <div className={styles.brand}>
-          <h1 className={styles.brandName}>AMIR</h1>
+          <Link to="/" className={styles.brandLink}>
+            <h1 className={styles.brandName}>TRISTAN</h1>
+          </Link>
         </div>
 
         {/*navigation links  */}
         <div className={styles.navLinks}>
-          <a href="#" className={styles.navLink}>
+          <Link to="/products" className={styles.navLink}>
             Women <span>+</span>
-          </a>
-          <a href="#" className={styles.navLink}>
+          </Link>
+          <Link to="/products" className={styles.navLink}>
             Men <span>+</span>
-          </a>
-          <a href="#" className={styles.navLink}>
+          </Link>
+          <Link to="/about" className={styles.navLink}>
             About
-          </a>
+          </Link>
         </div>
 
         {/* Right: Login, Search, Wishlist, Cart */}
@@ -114,7 +117,7 @@ function Header() {
               </svg>
             </button>
             {/* cart button  */}
-            <button className={styles.iconBtn} aria-label="Cart">
+            <Link to="/cart" className={styles.iconBtn} aria-label="Cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -129,7 +132,7 @@ function Header() {
                   d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </nav>

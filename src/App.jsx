@@ -1,14 +1,19 @@
-import Layout from "./components/common/Layout";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
+import About from "./pages/About";
 
 function App() {
   return (
-    <Layout>
-      
-      <div style={{ padding: "20px", minHeight: "400px" }}>
-        <h1>Welcome to AMIR</h1>
-        <p>PAGE CONTENT...</p>
-      </div>
-    </Layout>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
   );
 }
 
