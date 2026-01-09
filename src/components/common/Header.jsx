@@ -36,7 +36,7 @@ function Header() {
         {/* logo*/}
         <div className={styles.brand}>
           <Link to="/" className={styles.brandLink}>
-            <h1 className={styles.brandName}>TRISTAN</h1>
+            <h1 className={styles.brandName}>AMIR</h1>
           </Link>
         </div>
 
