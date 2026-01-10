@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "../components/common/Layout";
 import ProductCard from "../components/product/ProductCard";
 import { products } from "../data/products";
 import styles from "./Products.module.css";
 
 function Products() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "All";
+  
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [sortBy, setSortBy] = useState("default");
+
+  // Update category when URL changes
+  useEffect(() => {
+    const urlCategory = searchParams.get("category") || "All";
+    setSelectedCategory(urlCategory);
+  }, [searchParams]);
 
   // Filter and sort products
   const filteredProducts = products
@@ -25,7 +35,9 @@ function Products() {
   return (
     <Layout>
       <div className={styles.productsContainer}>
-        <h1 className={styles.pageTitle}>All Products</h1>
+        <h1 className={styles.pageTitle}>
+          {selectedCategory === "All" ? "All Products" : `${selectedCategory} Products`}
+        </h1>
 
         {/* Filters Section */}
         <div className={styles.filtersSection}>
@@ -37,7 +49,10 @@ function Products() {
                 className={`${styles.categoryBtn} ${
                   selectedCategory === "All" ? styles.active : ""
                 }`}
-                onClick={() => setSelectedCategory("All")}
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSearchParams({});
+                }}
               >
                 All
               </button>
@@ -45,7 +60,10 @@ function Products() {
                 className={`${styles.categoryBtn} ${
                   selectedCategory === "Men" ? styles.active : ""
                 }`}
-                onClick={() => setSelectedCategory("Men")}
+                onClick={() => {
+                  setSelectedCategory("Men");
+                  setSearchParams({ category: "Men" });
+                }}
               >
                 Men
               </button>
@@ -53,7 +71,10 @@ function Products() {
                 className={`${styles.categoryBtn} ${
                   selectedCategory === "Women" ? styles.active : ""
                 }`}
-                onClick={() => setSelectedCategory("Women")}
+                onClick={() => {
+                  setSelectedCategory("Women");
+                  setSearchParams({ category: "Women" });
+                }}
               >
                 Women
               </button>
