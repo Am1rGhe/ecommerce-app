@@ -72,6 +72,8 @@
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .loginBtn:hover {
@@ -84,6 +86,13 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+}
+
+.userDropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .avatar {
@@ -103,6 +112,22 @@
     font-size: 14px;
     color: #333;
     font-weight: 500;
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    font-size: 12px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.logoutBtn:hover {
+    color: #333;
 }
 
 /* Icons Container */
