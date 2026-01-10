@@ -34,9 +34,15 @@
     text-decoration: none;
     color: black;
     padding: 10px;
+    transition: border-bottom 0.3s ease;
 }
 .navLink:hover{
     border-bottom: 1px solid black;
+}
+
+.activeNavLink {
+    border-bottom: 2px solid black;
+    font-weight: 600;
 }
 
 
