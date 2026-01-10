@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import styles from "./ProductCard.module.css";
 
 function ProductCard({ product }) {
   const { id, name, price, image, originalPrice } = product;
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Prevent navigation when clicking button
+    addToCart(product);
+  };
 
   // Calculate discount percentage if originalPrice exists
   const discount =
