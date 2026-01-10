@@ -47,7 +47,11 @@ function ProductCard({ product }) {
       </Link>
 
       {/* Add to Cart Button */}
-      <button className={styles.addToCartBtn} aria-label="Add to cart">
+      <button
+        className={styles.addToCartBtn}
+        aria-label="Add to cart"
+        onClick={handleAddToCart}
+      >
         Add to Cart
       </button>
     </div>
