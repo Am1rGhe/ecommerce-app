@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import styles from "./Header.module.css";
@@ -8,6 +8,12 @@ function Header() {
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get current category from URL
+  const searchParams = new URLSearchParams(location.search);
+  const currentCategory = searchParams.get("category");
+  const isProductsPage = location.pathname === "/products";
 
   const getInitials = (name) => {
     if (!name) return "A";
@@ -52,13 +58,28 @@ function Header() {
 
         {/*navigation links  */}
         <div className={styles.navLinks}>
-          <Link to="/products" className={styles.navLink}>
-            Women <span>+</span>
+          <Link
+            to="/products?category=Women"
+            className={`${styles.navLink} ${
+              isProductsPage && currentCategory === "Women" ? styles.activeNavLink : ""
+            }`}
+          >
+            Women 
           </Link>
-          <Link to="/products" className={styles.navLink}>
-            Men <span>+</span>
+          <Link
+            to="/products?category=Men"
+            className={`${styles.navLink} ${
+              isProductsPage && currentCategory === "Men" ? styles.activeNavLink : ""
+            }`}
+          >
+            Men 
           </Link>
-          <Link to="/about" className={styles.navLink}>
+          <Link
+            to="/about"
+            className={`${styles.navLink} ${
+              location.pathname === "/about" ? styles.activeNavLink : ""
+            }`}
+          >
             About
           </Link>
         </div>
