@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import styles from "./Header.module.css";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("Amir Ghouari");
+  const { user, logout, isAuthenticated } = useAuth();
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
+  const navigate = useNavigate();
 
   const getInitials = (name) => {
+    if (!name) return "A";
     return name
       .split(" ")
       .map((n) => n[0])
@@ -19,6 +20,7 @@ function Header() {
 
   // random color for the avatar
   const getAvatarColor = (name) => {
+    if (!name) return "#999";
     const colors = [
       "#FF6B6B",
       "#4ECDC4",
@@ -30,6 +32,11 @@ function Header() {
     ];
     const index = name.length % colors.length;
     return colors[index];
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
   return (
@@ -60,25 +67,27 @@ function Header() {
         <div className={styles.rightSection}>
           {/* Login section */}
           <div className={styles.login}>
-            {!isLoggedIn ? (
+            {!isAuthenticated ? (
               <>
                 <span className={styles.welcomeText}>Hello, Welcome</span>
-                <button
-                  className={styles.loginBtn}
-                  onClick={() => setIsLoggedIn(true)}
-                >
+                <Link to="/login" className={styles.loginBtn}>
                   Login
-                </button>
+                </Link>
               </>
             ) : (
               <div className={styles.userInfo}>
                 <div
                   className={styles.avatar}
-                  style={{ backgroundColor: getAvatarColor(userName) }}
+                  style={{ backgroundColor: getAvatarColor(user?.name) }}
                 >
-                  {getInitials(userName)}
+                  {getInitials(user?.name)}
                 </div>
-                <span className={styles.userName}>{userName}</span>
+                <div className={styles.userDropdown}>
+                  <span className={styles.userName}>{user?.name || user?.email}</span>
+                  <button className={styles.logoutBtn} onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
               </div>
             )}
           </div>
