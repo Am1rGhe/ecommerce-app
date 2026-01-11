@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 
 function Footer() {
@@ -95,9 +96,9 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="#" className={styles.footerLink}>
+              <Link to="/track-order" className={styles.footerLink}>
                 Track Order
-              </a>
+              </Link>
             </li>
             <li>
               <a href="#" className={styles.footerLink}>
