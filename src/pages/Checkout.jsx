@@ -23,12 +23,93 @@ function Checkout() {
     country: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    // Clear error for this field when user types
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate Full Name
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = "Full name must be at least 2 characters";
+    }
+
+    // Validate Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Validate Phone
+    const phoneDigits = formData.phone.replace(/[^0-9]/g, "");
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (phoneDigits.length < 10) {
+      newErrors.phone = "Phone must be at least 10 digits";
+    }
+
+    // Validate Address
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+    }
+
+    // Validate City
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required";
+    }
+
+    // Validate State
+    if (!formData.state.trim()) {
+      newErrors.state = "State is required";
+    }
+
+    // Validate ZIP Code (Canadian Postal Code format: A1A 1A1)
+    const zipCodeRegex = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = "Postal code is required";
+    } else if (!zipCodeRegex.test(formData.zipCode.trim())) {
+      newErrors.zipCode = "Invalid postal code format (e.g., H1M 2R6)";
+    }
+
+    // Validate Country
+    if (!formData.country.trim()) {
+      newErrors.country = "Country is required";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
+    setErrors(validationErrors);
+
+    // If there are errors, stop submission
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    // If no errors, proceed to Phase 4 (order processing)
+    // This will be implemented in Phase 4
+    console.log("Form is valid! Proceeding to order processing...");
   };
 
   // Redirect to cart if cart is empty
@@ -67,7 +148,7 @@ function Checkout() {
           <div className={styles.formSection}>
             <h2 className={styles.sectionTitle}>Shipping Information</h2>
             
-            <form className={styles.checkoutForm}>
+            <form className={styles.checkoutForm} onSubmit={handleSubmit}>
               {/* Full Name and Phone */}
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
@@ -80,10 +161,15 @@ function Checkout() {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.fullName ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your full name"
                     required
                   />
+                  {errors.fullName && (
+                    <span className={styles.errorMessage}>{errors.fullName}</span>
+                  )}
                 </div>
 
                 <div className={styles.formGroup}>
@@ -96,10 +182,15 @@ function Checkout() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.phone ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your phone number"
                     required
                   />
+                  {errors.phone && (
+                    <span className={styles.errorMessage}>{errors.phone}</span>
+                  )}
                 </div>
               </div>
 
@@ -115,10 +206,15 @@ function Checkout() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.email ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your email address"
                     required
                   />
+                  {errors.email && (
+                    <span className={styles.errorMessage}>{errors.email}</span>
+                  )}
                 </div>
               </div>
 
@@ -134,10 +230,15 @@ function Checkout() {
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.address ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your street address"
                     required
                   />
+                  {errors.address && (
+                    <span className={styles.errorMessage}>{errors.address}</span>
+                  )}
                 </div>
               </div>
 
@@ -153,10 +254,15 @@ function Checkout() {
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.city ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your city"
                     required
                   />
+                  {errors.city && (
+                    <span className={styles.errorMessage}>{errors.city}</span>
+                  )}
                 </div>
 
                 <div className={styles.formGroup}>
@@ -169,10 +275,15 @@ function Checkout() {
                     name="state"
                     value={formData.state}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.state ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your state"
                     required
                   />
+                  {errors.state && (
+                    <span className={styles.errorMessage}>{errors.state}</span>
+                  )}
                 </div>
               </div>
 
@@ -188,10 +299,15 @@ function Checkout() {
                     name="zipCode"
                     value={formData.zipCode}
                     onChange={handleInputChange}
-                    className={styles.input}
-                    placeholder="Enter your ZIP code"
+                    className={`${styles.input} ${
+                      errors.zipCode ? styles.inputError : ""
+                    }`}
+                    placeholder="e.g., H2X 3Y7"
                     required
                   />
+                  {errors.zipCode && (
+                    <span className={styles.errorMessage}>{errors.zipCode}</span>
+                  )}
                 </div>
 
                 <div className={styles.formGroup}>
@@ -204,12 +320,22 @@ function Checkout() {
                     name="country"
                     value={formData.country}
                     onChange={handleInputChange}
-                    className={styles.input}
+                    className={`${styles.input} ${
+                      errors.country ? styles.inputError : ""
+                    }`}
                     placeholder="Enter your country"
                     required
                   />
+                  {errors.country && (
+                    <span className={styles.errorMessage}>{errors.country}</span>
+                  )}
                 </div>
               </div>
+
+              {/* Submit Button */}
+              <button type="submit" className={styles.submitBtn}>
+                Place Order
+              </button>
             </form>
           </div>
 
