@@ -239,6 +239,9 @@
   cursor: pointer;
   margin-top: 20px;
   transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
 }
 
 .checkoutBtn:hover {
