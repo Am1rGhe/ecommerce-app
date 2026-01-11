@@ -1,0 +1,248 @@
+.trackOrderContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 50px;
+  min-height: 600px;
+}
+
+.pageTitle {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Empty Orders State */
+.emptyOrders {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.emptyOrders h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.emptyOrders p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.shopBtn {
+  display: inline-block;
+  padding: 15px 40px;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.shopBtn:hover {
+  background-color: #555;
+}
+
+/* Orders List */
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Order Card */
+.orderCard {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.orderCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Order Header */
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.orderInfo {
+  flex: 1;
+}
+
+.orderId {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.orderDate {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.orderStatus {
+  display: flex;
+  align-items: center;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 6px 16px;
+  background-color: #ffa500;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Order Items */
+.orderItems {
+  margin-bottom: 25px;
+}
+
+.itemsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.itemDetails {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.itemSubtotal {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Order Footer */
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.shippingInfo {
+  flex: 1;
+}
+
+.shippingInfo p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.shippingInfo strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.orderTotal {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.totalLabel {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.totalAmount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trackOrderContainer {
+    padding: 40px 20px;
+  }
+
+  .pageTitle {
+    font-size: 28px;
+  }
+
+  .orderCard {
+    padding: 20px;
+  }
+
+  .orderHeader {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .orderFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .orderTotal {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
