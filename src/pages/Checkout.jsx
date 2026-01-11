@@ -9,6 +9,7 @@ function Checkout() {
   const {
     cartItems,
     getTotalPrice,
+    clearCart,
   } = useCart();
 
 
@@ -107,9 +108,69 @@ function Checkout() {
       return;
     }
 
-    // If no errors, proceed to Phase 4 (order processing)
-    // This will be implemented in Phase 4
-    console.log("Form is valid! Proceeding to order processing...");
+    // Calculate totals
+    const totalPrice = getTotalPrice();
+    const shipping = totalPrice > 0 ? 10.0 : 0;
+    const tax = totalPrice * 0.15;
+    const finalTotal = totalPrice + shipping + tax;
+
+    // Generate unique order ID
+    const orderId = `ORD-${Date.now()}`;
+
+    // Create order object
+    const order = {
+      id: orderId,
+      items: cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+        subtotal: item.price * item.quantity,
+      })),
+      shippingInfo: {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        country: formData.country,
+      },
+      totals: {
+        subtotal: totalPrice,
+        shipping: shipping,
+        tax: tax,
+        total: finalTotal,
+      },
+      date: new Date().toISOString(),
+      status: "pending",
+    };
+
+    // Save order to localStorage
+    try {
+      
+      const existingOrdersString = localStorage.getItem("orders");
+      const existingOrders = existingOrdersString
+        ? JSON.parse(existingOrdersString)
+        : [];
+
+      // Add new order
+      const updatedOrders = [...existingOrders, order];
+
+      // Save
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+      // Clear cart after save
+      clearCart();
+
+      // Navigate to order confirmation page
+      navigate("/order-confirmation", { state: { orderId: orderId } });
+    } catch (error) {
+      console.error("Failed to save order:", error);
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   // Redirect to cart if cart is empty
