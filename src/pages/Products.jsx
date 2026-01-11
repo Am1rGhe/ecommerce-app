@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "../components/common/Layout";
 import ProductCard from "../components/product/ProductCard";
-import { products } from "../data/products";
+import { products, searchProducts } from "../data/products";
 import styles from "./Products.module.css";
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryFromUrl = searchParams.get("category") || "All";
+  const searchTermFromUrl = searchParams.get("search") || "";
   
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [sortBy, setSortBy] = useState("default");
@@ -18,8 +19,13 @@ function Products() {
     setSelectedCategory(urlCategory);
   }, [searchParams]);
 
+  // Filter products by search term first
+  let productsToFilter = searchTermFromUrl
+    ? searchProducts(searchTermFromUrl)
+    : products;
+
   // Filter and sort products
-  const filteredProducts = products
+  const filteredProducts = productsToFilter
     .filter((product) => {
       if (selectedCategory === "All") return true;
       return product.category === selectedCategory;
@@ -32,11 +38,22 @@ function Products() {
       return 0; // default order
     });
 
+  // Generate page title
+  const getPageTitle = () => {
+    if (searchTermFromUrl) {
+      if (selectedCategory === "All") {
+        return `Search results for: "${searchTermFromUrl}"`;
+      }
+      return `${selectedCategory} Products matching: "${searchTermFromUrl}"`;
+    }
+    return selectedCategory === "All" ? "All Products" : `${selectedCategory} Products`;
+  };
+
   return (
     <Layout>
       <div className={styles.productsContainer}>
         <h1 className={styles.pageTitle}>
-          {selectedCategory === "All" ? "All Products" : `${selectedCategory} Products`}
+          {getPageTitle()}
         </h1>
 
         {/* Filters Section */}
@@ -51,7 +68,11 @@ function Products() {
                 }`}
                 onClick={() => {
                   setSelectedCategory("All");
-                  setSearchParams({});
+                  if (searchTermFromUrl) {
+                    setSearchParams({ search: searchTermFromUrl });
+                  } else {
+                    setSearchParams({});
+                  }
                 }}
               >
                 All
@@ -62,7 +83,11 @@ function Products() {
                 }`}
                 onClick={() => {
                   setSelectedCategory("Men");
-                  setSearchParams({ category: "Men" });
+                  const params = { category: "Men" };
+                  if (searchTermFromUrl) {
+                    params.search = searchTermFromUrl;
+                  }
+                  setSearchParams(params);
                 }}
               >
                 Men
@@ -73,7 +98,11 @@ function Products() {
                 }`}
                 onClick={() => {
                   setSelectedCategory("Women");
-                  setSearchParams({ category: "Women" });
+                  const params = { category: "Women" };
+                  if (searchTermFromUrl) {
+                    params.search = searchTermFromUrl;
+                  }
+                  setSearchParams(params);
                 }}
               >
                 Women

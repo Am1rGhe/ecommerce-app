@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
@@ -9,6 +10,11 @@ function Header() {
   const totalItems = getTotalItems();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Add Search state
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef(null);
 
   // Get current category from URL
   const searchParams = new URLSearchParams(location.search);
@@ -40,9 +46,49 @@ function Header() {
     return colors[index];
   };
 
+  // Focus search input when shown
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearch]);
+
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  // Toggle search input
+  const handleSearchIconClick = () => {
+    setShowSearch(!showSearch);
+    if (!showSearch) {
+      setSearchQuery("");
+    }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Handle search submission
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowSearch(false);
+      setSearchQuery("");
+    }
+  };
+
+  // Handle Enter key in search input
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit(e);
+    } else if (e.key === "Escape") {
+      setShowSearch(false);
+      setSearchQuery("");
+    }
   };
 
   return (
@@ -115,23 +161,72 @@ function Header() {
 
           {/* Icons: Search, Wishlist, Cart */}
           <div className={styles.icons}>
-            {/* search button */}
-            <button className={styles.iconBtn}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1}
-                stroke="currentColor"
-                className={styles.headerSvg}
+            {/* Search Container */}
+            <div className={styles.searchContainer}>
+              {/* search button */}
+              <button
+                className={`${styles.iconBtn} ${showSearch ? styles.searchActive : ""}`}
+                onClick={handleSearchIconClick}
+                aria-label="Search"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1}
+                  stroke="currentColor"
+                  className={styles.headerSvg}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </button>
+
+              {/* Search Input */}
+              {showSearch && (
+                <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    className={styles.searchInput}
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleSearchKeyDown}
+                  />
+                  <button type="submit" className={styles.searchSubmitBtn} aria-label="Submit search">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className={styles.searchSvg}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.searchCloseBtn}
+                    onClick={() => {
+                      setShowSearch(false);
+                      setSearchQuery("");
+                    }}
+                    aria-label="Close search"
+                  >
+                    ×
+                  </button>
+                </form>
+              )}
+            </div>
             {/* wishlist button */}
             <button className={styles.iconBtn} aria-label="Wishlist">
               <svg
